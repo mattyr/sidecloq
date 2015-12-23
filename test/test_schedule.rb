@@ -2,13 +2,17 @@ require 'helper'
 
 class TestSchedule < Sidecloq::Test
   describe 'schedule' do
-    let(:schedule_hash) { { 'test_job' => {
-      'class' => 'JobClass',
-      'cron' => '0 7 * * *',
-      'queue' => 'default'
-    } } }
+    let(:schedule_hash) do
+      {
+        'test_job' => {
+          'class' => 'JobClass',
+          'cron' => '0 7 * * *',
+          'queue' => 'default'
+        }
+      }
+    end
     let(:schedule) { Sidecloq::Schedule.from_hash(schedule_hash) }
-    before { Sidekiq.redis{|r| r.flushdb} }
+    before { Sidekiq.redis(&:flushdb) }
 
     it 'can save and load from a yml file' do
       require 'tempfile'

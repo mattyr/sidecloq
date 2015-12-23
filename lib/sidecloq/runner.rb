@@ -13,24 +13,24 @@ module Sidecloq
 
     def run
       @thread = Thread.new do
-        logger.info("Runner starting")
+        logger.info('Runner starting')
         @locker.with_lock do
           # i am the leader
-          logger.info("Obtained leader lock")
+          logger.info('Obtained leader lock')
           @scheduler.run
         end
-        logger.info("Runner ending")
+        logger.info('Runner ending')
       end
     end
 
     def stop(timeout = nil)
-      logger.debug("Stopping runner")
-      if @locker.has_lock?
+      logger.debug('Stopping runner')
+      if @locker.locked?
         @scheduler.stop(timeout)
         @locker.stop(timeout)
       end
       @thread.join if @thread
-      logger.debug("Stopped runner")
+      logger.debug('Stopped runner')
     end
 
     private unless $TESTING

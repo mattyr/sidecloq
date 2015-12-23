@@ -7,4 +7,4 @@ platforms :mri do
   gem 'minitest-utils'
 end
 
-gem "codeclimate-test-reporter", group: :test, require: false
+gem 'codeclimate-test-reporter', group: :test, require: false

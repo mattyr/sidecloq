@@ -10,13 +10,13 @@ module Sidecloq
 
     # run queues jobs per their schedules, blocking forever
     def run
-      logger.info("Loading schedules into redis")
+      logger.info('Loading schedules into redis')
       sync_with_redis
-      logger.info("Starting scheduler")
+      logger.info('Starting scheduler')
       load_schedule_into_rufus
-      logger.debug("Joining rufus thread")
+      logger.debug('Joining rufus thread')
       rufus.join
-      logger.debug("Scheduler run ended")
+      logger.debug('Scheduler run ended')
     end
 
     def stop(timeout = nil)
@@ -33,7 +33,7 @@ module Sidecloq
         rufus.shutdown(:wait)
       end
       rufus.join
-      logger.info("Stopped scheduler")
+      logger.info('Stopped scheduler')
     end
 
     private unless $TESTING
@@ -47,7 +47,7 @@ module Sidecloq
     end
 
     def load_schedule_into_rufus
-      logger.debug("Scheduling jobs")
+      logger.debug('Scheduling jobs')
       @schedule.job_specs.each do |name, spec|
         load_into_rufus(name, spec)
       end
@@ -71,14 +71,14 @@ module Sidecloq
 
       # failed enqeueuing should not b0rk stuff
       begin
-        enqueue_job!(name, spec)
+        enqueue_job!(spec)
       rescue => e
         logger.info "error enqueuing #{name} - #{e.class.name}: #{e.message}"
       end
     end
 
     # can raise exceptions, but shouldn't
-    def enqueue_job!(name, spec)
+    def enqueue_job!(spec)
       Sidekiq::Client.push(spec)
     end
   end

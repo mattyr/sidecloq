@@ -11,6 +11,7 @@ require 'sidecloq/scheduler'
 require 'sidecloq/runner'
 require 'sidecloq/version'
 
+# Sideloq provides a lightweight recurring job scheduler for sidekiq
 module Sidecloq
   def self.install
     Sidekiq.configure_server do |config|
@@ -37,9 +38,8 @@ module Sidecloq
   end
 
   def self.startup
-    unless options[:scheduler]
-      options[:schedule] ||= extract_schedule
-    end
+    options[:schedule] ||= extract_schedule unless options[:scheduler]
+
     @runner = Runner.new(options)
     @runner.run
   end
@@ -55,13 +55,13 @@ module Sidecloq
     return options[:schedule] if options[:schedule]
 
     # try for a file
-    options[:schedule_file] ||= "config/sidecloq.yml"
-    if File.exists?(options[:schedule_file])
+    options[:schedule_file] ||= 'config/sidecloq.yml'
+    if File.exist?(options[:schedule_file])
       return Schedule.from_yaml(options[:schedule_file])
     elsif defined?(Rails)
       # try rails-root-relative
       full_path = File.join(Rails.root, options[:schedule_file])
-      if File.exists?(full_path)
+      if File.exist?(full_path)
         options[:schedule_file] = full_path
         return Schedule.from_yaml(options[:schedule_file])
       end

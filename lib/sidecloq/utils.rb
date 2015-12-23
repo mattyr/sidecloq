@@ -1,5 +1,8 @@
 module Sidecloq
+  # Useful stuff
   module Utils
+    # Sets the Sidekiq::Logging context automatically with direct calls to
+    # *.logger
     class ContextLogger
       def initialize(ctx)
         @context = ctx
@@ -25,9 +28,7 @@ module Sidecloq
     def will_never_run(cronline)
       # look for non-existent day of month
       split = cronline.split(/\s+/)
-      if split.length > 3 &&
-          split[2] =~ /\d+/
-          split[3] =~ /\d+/
+      if split.length > 3 && split[2] =~ /\d+/ && split[3] =~ /\d+/
 
         month = split[3].to_i
         day = split[2].to_i

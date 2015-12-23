@@ -2,7 +2,7 @@ require_relative 'helper'
 
 class TestLocker < Sidecloq::Test
   describe 'locker' do
-    before { Sidekiq.redis{|r| r.flushdb} }
+    before { Sidekiq.redis(&:flushdb) }
 
     it 'obtains the lock when only locker' do
       solo = Sidecloq::Locker.new(lock_key: 'lockertest1')
@@ -16,10 +16,10 @@ class TestLocker < Sidecloq::Test
 
     it 'does not obtain the lock when it is held' do
       holder = Sidecloq::Locker.new(lock_key: 'lockertest2')
-      assert holder.get_or_refresh_lock
+      assert holder.try_to_get_or_refresh_lock
 
       non_holder = Sidecloq::Locker.new(lock_key: 'lockertest2')
-      refute non_holder.get_or_refresh_lock
+      refute non_holder.try_to_get_or_refresh_lock
     end
 
     it 'obtains the lock when the leader loses it' do
@@ -27,7 +27,11 @@ class TestLocker < Sidecloq::Test
       # having tests that check with_lock directly
 
       ttl = 1 # seems like 1 is the min for redlock
-      holder = Sidecloq::Locker.new(lock_key: 'lockertest3', ttl: ttl, check_interval: 1)
+      holder = Sidecloq::Locker.new(
+        lock_key: 'lockertest3',
+        ttl: ttl,
+        check_interval: 1
+      )
 
       release_holder_lock = Concurrent::Event.new
       Thread.new do
@@ -36,7 +40,12 @@ class TestLocker < Sidecloq::Test
         end
       end
 
-      obtainer = Sidecloq::Locker.new(lock_key: 'lockertest3', ttl: ttl, check_interval: 1)
+      obtainer = Sidecloq::Locker.new(
+        lock_key: 'lockertest3',
+        ttl: ttl,
+        check_interval: 1
+      )
+
       obtainer_got_lock = Concurrent::Event.new
       obtained_lock = false
       Thread.new do

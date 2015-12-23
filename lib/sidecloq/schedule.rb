@@ -32,23 +32,20 @@ module Sidecloq
     end
 
     def self.from_hash(hash)
-      if defined?(Rails) && hash.key?(Rails.env)
-        hash = hash[Rails.env]
-      end
+      hash = hash[Rails.env] if defined?(Rails) && hash.key?(Rails.env)
 
-      specs = hash.inject({}) do |memo, (name, spec)|
+      specs = hash.each_with_object({}) do |(name, spec), memo|
         memo[name] = spec.dup.tap do |s|
           s['class'] = name unless spec.key?('class') || spec.key?(:class)
           s['args'] = s['args'] || s[:args] || []
         end
-        memo
       end
 
       new(specs)
     end
 
     def save_yaml(filename)
-      File.open(filename,'w') do |h|
+      File.open(filename, 'w') do |h|
         h.write @job_specs.to_yaml
       end
     end
