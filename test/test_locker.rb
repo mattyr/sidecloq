@@ -1,0 +1,57 @@
+require_relative 'helper'
+
+class TestLocker < Sidecloq::Test
+  describe 'locker' do
+    before { Sidekiq.redis{|r| r.flushdb} }
+
+    it 'obtains the lock when only locker' do
+      solo = Sidecloq::Locker.new(lock_key: 'lockertest1')
+      obtained_lock = false
+      solo.with_lock do
+        obtained_lock = true
+      end
+      solo.stop(0)
+      assert obtained_lock
+    end
+
+    it 'does not obtain the lock when it is held' do
+      holder = Sidecloq::Locker.new(lock_key: 'lockertest2')
+      assert holder.get_or_refresh_lock
+
+      non_holder = Sidecloq::Locker.new(lock_key: 'lockertest2')
+      refute non_holder.get_or_refresh_lock
+    end
+
+    it 'obtains the lock when the leader loses it' do
+      # TODO: i would love to not depend on timeouts/etc here while still
+      # having tests that check with_lock directly
+
+      ttl = 1 # seems like 1 is the min for redlock
+      holder = Sidecloq::Locker.new(lock_key: 'lockertest3', ttl: ttl, check_interval: 1)
+
+      release_holder_lock = Concurrent::Event.new
+      Thread.new do
+        holder.with_lock do
+          release_holder_lock.wait
+        end
+      end
+
+      obtainer = Sidecloq::Locker.new(lock_key: 'lockertest3', ttl: ttl, check_interval: 1)
+      obtainer_got_lock = Concurrent::Event.new
+      obtained_lock = false
+      Thread.new do
+        obtainer.with_lock do
+          obtained_lock = true
+          obtainer_got_lock.set
+        end
+      end
+
+      refute obtained_lock
+      release_holder_lock.set
+      obtainer_got_lock.wait
+      assert obtained_lock
+      holder.stop(0)
+      obtainer.stop(0)
+    end
+  end
+end

@@ -1,0 +1,3 @@
+module Sidecloq
+  VERSION = "0.1.0"
+end
