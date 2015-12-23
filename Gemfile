@@ -2,4 +2,6 @@ source 'https://rubygems.org'
 
 gemspec
 
-gem 'pry'
+platforms :mri do
+  gem 'pry'
+end
