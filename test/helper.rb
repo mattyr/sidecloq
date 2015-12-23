@@ -1,3 +1,8 @@
+require 'simplecov'
+require "codeclimate-test-reporter"
+SimpleCov.start
+CodeClimate::TestReporter.start
+
 $TESTING = true
 # disable minitest/parallel threads
 ENV["N"] = "0"
@@ -10,7 +15,7 @@ require 'minitest/autorun'
 # from sidekiq's test helper:
 
 REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost/15'
-REDIS = Sidekiq::RedisConnection.create(:url => REDIS_URL, :namespace => 'testy')
+#REDIS = Sidekiq::RedisConnection.create(:url => REDIS_URL, :namespace => 'testy')
 
 Sidekiq.configure_client do |config|
   config.redis = { :url => REDIS_URL, :namespace => 'testy' }
