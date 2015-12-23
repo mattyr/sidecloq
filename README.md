@@ -1,3 +1,5 @@
+![Sidecloq](clock_a_clock_on_the_side.png)
+
 # Sidecloq
 
 [![Build Status](https://travis-ci.org/mattyr/sidecloq.svg)](https://travis-ci.org/mattyr/sidecloq)
