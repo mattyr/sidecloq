@@ -4,9 +4,19 @@ cache: bundler
 services:
   - redis-server
 rvm:
-  - 2.1.7
-  - 2.0.0
-  - 2.2.3
+  - 2.1
+  - 2.2.4
+  - 2.2-head
+  - ruby-head
   - jruby
   - jruby-head
-  - rbx-2
+  - rbx-2.2
+  - rbx-2.3
+  - rbx-2.4
+  - rbx
+  - rbx-head
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: rbx-head
+    - rvm: jruby-head
