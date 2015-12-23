@@ -1,5 +1,7 @@
 # Sidecloq
 
+[![Build Status](https://travis-ci.org/mattyr/sidecloq.svg)](https://travis-ci.org/mattyr/sidecloq)
+
 Another recurring job extension for Sidekiq.
 
 ## Why
