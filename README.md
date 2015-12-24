@@ -8,7 +8,7 @@
 [![Test Coverage](https://codeclimate.com/github/mattyr/sidecloq/badges/coverage.svg)](https://codeclimate.com/github/mattyr/sidecloq/coverage)
 [![Dependency Status](https://gemnasium.com/mattyr/sidecloq.svg)](https://gemnasium.com/mattyr/sidecloq)
 
-Another recurring job extension for Sidekiq.
+Recurring / Periodic / Scheduled / Cron job extension for Sidekiq
 
 ## Why
 
