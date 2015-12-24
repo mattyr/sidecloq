@@ -34,7 +34,7 @@ module Sidecloq
   end
 
   def self.configure
-    yield self
+    yield options
   end
 
   def self.startup
