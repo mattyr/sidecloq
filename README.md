@@ -1,4 +1,4 @@
-![Sidecloq](clock_a_clock_on_the_side.png)
+![Sidecloq](assets/clock_a_clock_on_the_side.png)
 
 # Sidecloq
 
@@ -114,7 +114,7 @@ This will add a "Recurring" tab to the sidekiq web ui, where the loaded
 schedules are displayed.  You can enqueue a job immediately by clicking
 it's corresponding "Enqueue now" button.
 
-![Sidecloq web ui extension screenshot](screenshot.png)
+![Sidecloq web ui extension screenshot](assets/screenshot.png)
 
 ## Contributing
 
