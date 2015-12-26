@@ -45,6 +45,9 @@ Add this line to your application's Gemfile:
 gem 'sidecloq'
 ```
 
+Tested on MRI > 2, JRuby and Rubinius.  Basically, if you can run
+Sidekiq, you can run Sidecloq.
+
 ## Configuration
 
 ### Quickstart
