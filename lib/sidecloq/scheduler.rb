@@ -20,18 +20,8 @@ module Sidecloq
 
     def stop(timeout = nil)
       logger.info("Stopping scheduler (timeout: #{timeout})")
-      if timeout
-        t = Concurrent::ScheduledTask.new(timeout) do
-          rufus.shutdown(:kill) if rufus.up?
-        end
-        Thread.new do
-          rufus.shutdown(:wait)
-          t.cancel
-        end
-      else
-        rufus.shutdown(:wait)
-      end
-      rufus.join
+      rufus.shutdown(:kill)
+      rufus.thread.join(timeout)
       logger.info('Stopped scheduler')
     end
 
