@@ -6,7 +6,7 @@ module Sidecloq
     def initialize(schedule, options = {})
       @schedule = schedule
       @options = options
-      @loaded = false
+      @loaded = Concurrent::Event.new
     end
 
     # run queues jobs per their schedules, blocking forever
@@ -37,8 +37,8 @@ module Sidecloq
 
     private unless $TESTING
 
-    def loaded?
-      @loaded
+    def wait_for_loaded
+      @loaded.wait
     end
 
     def rufus
@@ -54,7 +54,7 @@ module Sidecloq
       @schedule.job_specs.each do |name, spec|
         load_into_rufus(name, spec)
       end
-      @loaded = true
+      @loaded.set
     end
 
     def load_into_rufus(name, spec)

@@ -11,12 +11,13 @@ class TestScheduler < Sidecloq::Test
     before { Sidekiq.redis(&:flushdb) }
 
     it 'blocks when calling run' do
+      @unblocked = false
       t = Thread.new do
         scheduler.run
+        raise 'Did not block' unless @unblocked
       end
-      while !scheduler.loaded?
-        sleep(0.01)
-      end
+      scheduler.wait_for_loaded
+      @unblocked = true
       scheduler.stop(1)
       t.join
     end
