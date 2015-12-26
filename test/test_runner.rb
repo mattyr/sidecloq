@@ -1,17 +1,6 @@
 require 'helper'
 
 class TestRunner < Sidecloq::Test
-  class DummyLocker
-    def with_lock
-      yield
-    end
-  end
-
-  class DummyScheduler
-    def run
-    end
-  end
-
   describe 'runner' do
     it 'uses locker in options' do
       r = Sidecloq::Runner.new(locker: DummyLocker.new)
@@ -21,6 +10,19 @@ class TestRunner < Sidecloq::Test
     it 'uses scheduler in options' do
       r = Sidecloq::Runner.new(scheduler: DummyScheduler.new)
       assert_instance_of DummyScheduler, r.scheduler
+    end
+
+    it 'runs in its own thread (non-blocking)' do
+      r = Sidecloq::Runner.new(
+        locker: DummyLocker.new,
+        scheduler: DummyScheduler.new
+      )
+
+      r.run
+
+      assert true
+
+      r.stop
     end
   end
 end

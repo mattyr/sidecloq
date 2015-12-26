@@ -44,8 +44,13 @@ module Sidecloq
     @runner.run
   end
 
+  def self.running?
+   !!@runner
+  end
+
   def self.shutdown
     @runner.stop(options[:timeout] || 10) if @runner
+    @runner = nil
   end
 
   def self.extract_schedule
@@ -56,6 +61,7 @@ module Sidecloq
 
     # try for a file
     options[:schedule_file] ||= 'config/sidecloq.yml'
+
     if File.exist?(options[:schedule_file])
       return Schedule.from_yaml(options[:schedule_file])
     elsif defined?(Rails)

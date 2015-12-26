@@ -23,8 +23,8 @@ class TestSchedule < Sidecloq::Test
 
       loaded = Sidecloq::Schedule.from_yaml(file.path)
 
-      assert_equal(loaded.job_specs.keys.first, 'test_job')
-      assert_equal(loaded.job_specs.values.first['cron'], '0 7 * * *')
+      assert_equal('test_job', loaded.job_specs.keys.first)
+      assert_equal('0 7 * * *', loaded.job_specs.values.first['cron'])
 
       file.delete
     end
@@ -34,8 +34,17 @@ class TestSchedule < Sidecloq::Test
 
       loaded = Sidecloq::Schedule.from_redis
 
-      assert_equal(loaded.job_specs.keys.first, 'test_job')
-      assert_equal(loaded.job_specs.values.first['cron'], '0 7 * * *')
+      assert_equal('test_job', loaded.job_specs.keys.first)
+      assert_equal('0 7 * * *', loaded.job_specs.values.first['cron'])
+    end
+
+    it 'clears existing schedule when saved' do
+      schedule.save_redis
+      schedule_2 = Sidecloq::Schedule.from_hash(schedule_hash.tap do |x|
+        x['test_job']['class'] = 'JobClass2'
+      end)
+      schedule_2.save_redis
+      assert_equal 'JobClass2', Sidecloq::Schedule.from_redis.job_specs['test_job']['class']
     end
   end
 end

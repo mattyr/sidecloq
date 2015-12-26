@@ -14,9 +14,7 @@ module Sidecloq
       sync_with_redis
       logger.info('Starting scheduler')
       load_schedule_into_rufus
-      logger.debug('Joining rufus thread')
       rufus.join
-      logger.debug('Scheduler run ended')
     end
 
     def stop(timeout = nil)

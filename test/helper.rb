@@ -19,10 +19,44 @@ REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost/15'
 Sidekiq.configure_client do |config|
   config.redis = { url: REDIS_URL, namespace: 'testy' }
 end
+Sidekiq::Logging.logger.level = Logger::ERROR
 
 module Sidecloq
   class Test < MiniTest::Test
   end
+end
+
+class DummyLocker
+  def with_lock
+    yield
+  end
+
+  def locked?
+    true
+  end
+
+  def stop(timeout = nil)
+  end
+end
+
+class DummyScheduler
+  def run
+  end
+
+  def stop(timeout = nil)
+  end
+end
+
+def define_rails!
+  Object.const_set('Rails', Class.new do
+    def self.root
+      File.expand_path('../', __FILE__)
+    end
+
+    def self.env
+      'development'
+    end
+  end)
 end
 
 # also courtesy of sidekiq:

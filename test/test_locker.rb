@@ -9,6 +9,7 @@ class TestLocker < Sidecloq::Test
       obtained_lock = false
       solo.with_lock do
         obtained_lock = true
+        assert solo.locked?
       end
       solo.stop(0)
       assert obtained_lock
