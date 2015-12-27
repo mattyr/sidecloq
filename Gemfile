@@ -7,4 +7,14 @@ platforms :mri, :rbx do
   gem 'minitest-utils'
 end
 
+# https://github.com/sinatra/sinatra/blob/master/Gemfile
+sidekiq_dep =
+  case ENV['sidekiq']
+  when 'stable', nil then nil
+  when /(\d+\.)+\d+/ then "~> " + ENV['sidekiq'].sub("sidekiq-", '')
+  else {github: 'mperham/sidekiq', branch: ENV['sidekiq']}
+  end
+
+gem 'sidekiq', sidekiq_dep
+
 gem 'codeclimate-test-reporter', group: :test, require: false
