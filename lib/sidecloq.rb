@@ -1,7 +1,7 @@
 require 'sidekiq'
 require 'concurrent'
+require 'json'
 require 'redlock'
-require 'multi_json'
 require 'rufus-scheduler'
 
 require 'sidecloq/utils'
