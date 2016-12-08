@@ -1,5 +1,5 @@
 module Sidecloq
-  # Scheduler enqeues jobs according to the given schedule
+  # Scheduler enqueues jobs according to the given schedule
   class Scheduler
     include Utils
 
@@ -61,9 +61,9 @@ module Sidecloq
     end
 
     def safe_enqueue_job(name, spec)
-      logger.info "enqueueing #{name}"
+      logger.info "enqueuing #{name}"
 
-      # failed enqeueuing should not b0rk stuff
+      # failed enqueuing should not b0rk stuff
       begin
         enqueue_job!(spec)
       rescue => e

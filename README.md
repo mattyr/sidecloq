@@ -30,7 +30,7 @@ Sidecloq is:
   Sidekiq 4, which no longer uses Celluloid.
 - **Clean:** Sidecloq leverages only the public API of Sidekiq, and does
   not pollute the Sidekiq namespace.
-- **Easy to deploy:** Sidecloq boots with all Sideqik processes,
+- **Easy to deploy:** Sidecloq boots with all Sidekiq processes,
   automatically.  Leader election ensures only one process enqueues
   jobs, and a new leader is automatically chosen should the current
   leader die.
@@ -55,7 +55,7 @@ Sidekiq, you can run Sidecloq.
 Tell Sidecloq where your schedule file is located:
 
 ```ruby
-Sidcloq.configure do |config|
+Sidecloq.configure do |config|
   config[:schedule_file] = "path/to/myschedule.yml"
 end
 ```
