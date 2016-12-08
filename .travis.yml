@@ -5,14 +5,15 @@ services:
   - redis-server
 rvm:
   - 2.0.0
-  - 2.1.8
+  - 2.1.10
   - 2.2.4
   - 2.3.0
   - ruby-head
   - jruby-9.0.4.0
   - jruby-head
-  - rbx-2.6
-  - rbx-2.7
+  - rbx-2.10
+  - rbx-2.11
+  - rbx-3.69
 env:
   - "sidekiq=master"
   - "sidekiq=stable"
@@ -21,6 +22,9 @@ matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
+    - rvm: rbx-2.10
+    - rvm: rbx-2.11
+    - rvm: rbx-3.69
     - env: "sidekiq=master"
 after_success:
   - bundle exec codeclimate-test-reporter

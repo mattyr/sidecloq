@@ -121,11 +121,11 @@ it's corresponding "Enqueue now" button.
 
 ## Notes
 
-If you are running MRI < 2.2.4, you will need to make sure you are using
-rack <= 1.5.  You can do this by adding:
+If you are running MRI < 2.2.2, you will need to make sure you are using
+rack < 2.0.  You can do this by adding:
 
 ```ruby
-gem 'rack', '~> 1.5'
+gem 'rack', '< 2.0'
 ```
 
 To your app's Gemfile.

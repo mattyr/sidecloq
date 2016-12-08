@@ -17,6 +17,11 @@ sidekiq_dep =
 
 gem 'sidekiq', sidekiq_dep
 
+# rack >= 2.0 requires ruby >= 2.2.2
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.2.2")
+  gem 'rack', '< 2.0'
+end
+
 group :test do
   gem "simplecov"
   gem "codeclimate-test-reporter", "~> 1.0.0"
