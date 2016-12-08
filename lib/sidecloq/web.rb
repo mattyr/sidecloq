@@ -11,8 +11,10 @@ module Sidecloq
       end
 
       app.post '/recurring/:name/enqueue' do |name|
+        job_name = respond_to?(:route_params) ? route_params[:name] : name
+
         # rubocop:disable Lint/AssignmentInCondition
-        if spec = Sidecloq::Schedule.from_redis.job_specs[name]
+        if spec = Sidecloq::Schedule.from_redis.job_specs[job_name]
           Sidekiq::Client.push(spec)
         end
         # rubocop:enableLint/AssignmentInCondition
