@@ -1,7 +1,5 @@
 require 'simplecov'
-require 'codeclimate-test-reporter'
 SimpleCov.start
-CodeClimate::TestReporter.start
 
 $TESTING = true
 # disable minitest/parallel threads
