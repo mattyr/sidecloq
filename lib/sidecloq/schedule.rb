@@ -23,7 +23,7 @@ module Sidecloq
 
         redis { |r| r.hgetall(REDIS_KEY) }.tap do |h|
           h.each do |name, config|
-            specs[name] = MultiJson.decode(config)
+            specs[name] = JSON.parse(config)
           end
         end
       end
@@ -68,7 +68,7 @@ module Sidecloq
     def save_all_to_redis
       redis do |r|
         @job_specs.each do |name, spec|
-          r.hset(REDIS_KEY, name, MultiJson.encode(spec))
+          r.hset(REDIS_KEY, name, spec.to_json)
         end
       end
     end
