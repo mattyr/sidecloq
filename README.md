@@ -119,6 +119,17 @@ it's corresponding "Enqueue now" button.
 
 ![Sidecloq web ui extension screenshot](assets/screenshot.png)
 
+## Notes
+
+If you are running MRI < 2.2.4, you will need to make sure you are using
+rack <= 1.5.  You can do this by adding:
+
+```ruby
+gem 'rack', '~> 1.5'
+```
+
+To your app's Gemfile.
+
 ## Contributing
 
 Bug reports and pull requests are welcome.
