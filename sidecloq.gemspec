@@ -23,11 +23,9 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'redlock', '~> 0.1.2'
   # mimics some dev dependencies of sidekiq:
   spec.add_dependency 'concurrent-ruby'
-  spec.add_dependency 'sinatra', '~> 1.4', '>= 1.4.6'
-  spec.add_dependency 'redis-namespace', '~> 1.5', '>= 1.5.2'
-  spec.add_dependency 'multi_json', '~> 1.11'
   spec.add_dependency 'rufus-scheduler', '~> 3.1', '>= 3.1.10'
 
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'minitest'
+  spec.add_development_dependency 'redis-namespace', '~> 1.5', '>= 1.5.2'
 end
