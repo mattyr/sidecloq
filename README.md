@@ -14,8 +14,7 @@ Recurring / Periodic / Scheduled / Cron job extension for
 ## Why
 
 There are several options for running periodic tasks with Sidekiq,
-including [Sidetiq](https://github.com/tobiassvn/sidetiq),
-[sidekiq-scheduler](https://github.com/Moove-it/sidekiq-scheduler),
+including [sidekiq-scheduler](https://github.com/Moove-it/sidekiq-scheduler),
 [sidekiq-cron](https://github.com/ondrejbartas/sidekiq-cron), as well as
 [Sidekiq Pro](http://sidekiq.org/products/pro).  Each tackles the
 problem slightly differently. Sidecloq is inspired by various facets
