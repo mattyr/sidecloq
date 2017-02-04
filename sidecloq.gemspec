@@ -28,4 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake', '~> 10.0'
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency 'redis-namespace', '~> 1.5', '>= 1.5.2'
+  spec.add_development_dependency 'activejob'
 end
