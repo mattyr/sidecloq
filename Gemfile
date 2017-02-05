@@ -22,6 +22,12 @@ if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.2.2")
   gem 'rack', '< 2.0'
 end
 
+if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.2.2")
+  gem 'activejob', '< 5'
+else
+  gem 'activejob'
+end
+
 group :test do
   gem "simplecov"
   gem "codeclimate-test-reporter", "~> 1.0.0"
