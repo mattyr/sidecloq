@@ -17,15 +17,11 @@ sidekiq_dep =
 
 gem 'sidekiq', sidekiq_dep
 
-# rack >= 2.0 requires ruby >= 2.2.2
 if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.2.2")
+  # rack >= 2.0 requires ruby >= 2.2.2
   gem 'rack', '< 2.0'
-end
-
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.2.2")
+  # activejob >= 5 requires ruby >= 2.2.2
   gem 'activejob', '< 5'
-else
-  gem 'activejob'
 end
 
 group :test do
