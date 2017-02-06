@@ -45,6 +45,17 @@ class DummyScheduler
   end
 end
 
+class DummyJob
+end
+
+require 'active_job'
+
+ActiveJob::Base.queue_adapter = :sidekiq
+ActiveJob::Base.logger.level = Logger::ERROR
+
+class DummyActiveJob < ActiveJob::Base
+end
+
 def define_rails!
   Object.const_set('Rails', Class.new do
     def self.root

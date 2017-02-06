@@ -65,15 +65,10 @@ module Sidecloq
 
       # failed enqueuing should not b0rk stuff
       begin
-        enqueue_job!(spec)
+        JobEnqueuer.new(spec).enqueue
       rescue => e
         logger.info "error enqueuing #{name} - #{e.class.name}: #{e.message}"
       end
-    end
-
-    # can raise exceptions, but shouldn't
-    def enqueue_job!(spec)
-      Sidekiq::Client.push(spec)
     end
   end
 end

@@ -15,7 +15,7 @@ module Sidecloq
 
         # rubocop:disable Lint/AssignmentInCondition
         if spec = Sidecloq::Schedule.from_redis.job_specs[job_name]
-          Sidekiq::Client.push(spec)
+          JobEnqueuer.new(spec).enqueue
         end
         # rubocop:enableLint/AssignmentInCondition
         redirect "#{root_path}recurring"

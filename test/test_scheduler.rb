@@ -4,7 +4,7 @@ require 'sidekiq/api'
 class TestScheduler < Sidecloq::Test
   describe 'scheduler' do
     let(:specs) do
-      {test: {'cron' => '1 * * * *', 'class' => 'Foo', 'args' => []}}
+      {test: {'cron' => '1 * * * *', 'class' => 'DummyJob', 'args' => []}}
     end
     let(:schedule) { Sidecloq::Schedule.new(specs) }
     let(:scheduler) { Sidecloq::Scheduler.new(schedule) }

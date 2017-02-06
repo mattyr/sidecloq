@@ -35,6 +35,9 @@ task :web do
     config[:schedule] = sched
   end
 
+  class DoWork
+  end
+
   require 'sidekiq/web'
   require 'sidecloq/web'
 
