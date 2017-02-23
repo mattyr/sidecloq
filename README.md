@@ -71,8 +71,16 @@ the above configuration block).
 ```yaml
 my_scheduled_job: # a unique name for this schedule
   class: Jobs::DoWork # the job class
+  args: [100]       # (optional) set of arguments
   cron: "* * * * *" # cron formatted schedule
   queue: "queue_name" # Sidekiq queue for job
+
+my_scheduled_job_with_args:
+  class: Jobs::WorkerWithArgs
+  args:
+    batch_size: 100
+  cron: "1 1 * * *"
+  queue: "queue_name"
 
 my_other_scheduled_job:
   class: Jobs::AnotherClassName

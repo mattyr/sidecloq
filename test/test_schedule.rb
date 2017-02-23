@@ -7,7 +7,8 @@ class TestSchedule < Sidecloq::Test
         'test_job' => {
           'class' => 'JobClass',
           'cron' => '0 7 * * *',
-          'queue' => 'default'
+          'queue' => 'default',
+          'args' => { 'batch' => 100 }
         }
       }
     end
@@ -25,6 +26,7 @@ class TestSchedule < Sidecloq::Test
 
       assert_equal('test_job', loaded.job_specs.keys.first)
       assert_equal('0 7 * * *', loaded.job_specs.values.first['cron'])
+      assert_equal({'batch' => 100}, loaded.job_specs.values.first['args'])
 
       file.delete
     end

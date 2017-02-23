@@ -7,3 +7,10 @@ my_other_scheduled_job:
   class: Jobs::AnotherClassName
   cron: "1 1 * * *"
   queue: "a_different_queue"
+
+my_scheduled_job_with_args:
+  class: Jobs::WorkerWithArgs
+  args:
+    batch_size: 100
+  cron: "1 1 * * *"
+  queue: "queue_name"

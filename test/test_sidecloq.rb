@@ -56,13 +56,13 @@ class TestSidecloq < Sidecloq::Test
 
       it 'loads a given filename' do
         Sidecloq.options[:schedule_file] = File.expand_path('../fixtures/sidecloq.yml', __FILE__)
-        assert_equal 2, Sidecloq.extract_schedule.job_specs.keys.length
+        assert_equal 3, Sidecloq.extract_schedule.job_specs.keys.length
       end
 
       it 'finds a config file relative to rails root' do
         define_rails!
         Sidecloq.options[:schedule_file] = '/fixtures/sidecloq.yml'
-        assert_equal 2, Sidecloq.extract_schedule.job_specs.keys.length
+        assert_equal 3, Sidecloq.extract_schedule.job_specs.keys.length
       end
 
       it 'defaults to an empty schedule' do
