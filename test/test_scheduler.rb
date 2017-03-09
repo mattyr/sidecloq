@@ -11,6 +11,11 @@ class TestScheduler < Sidecloq::Test
     before { Sidekiq.redis(&:flushdb) }
 
     it 'blocks when calling run' do
+      # initialization on this thread seems to prevent some kind testing
+      # deadlock
+      # TODO: investigate why....
+      scheduler
+
       @unblocked = false
       t = Thread.new do
         scheduler.run

@@ -4,6 +4,8 @@ SimpleCov.start
 $TESTING = true
 # disable minitest/parallel threads
 ENV['N'] = '0'
+# silence redis-namespace deprecation warnings
+ENV['REDIS_NAMESPACE_QUIET'] = '1'
 
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'sidecloq'
@@ -17,7 +19,8 @@ REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost/15'
 Sidekiq.configure_client do |config|
   config.redis = { url: REDIS_URL, namespace: 'testy' }
 end
-Sidekiq::Logging.logger.level = Logger::ERROR
+
+Sidekiq::Logging.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
 
 module Sidecloq
   class Test < MiniTest::Test

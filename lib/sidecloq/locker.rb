@@ -13,6 +13,7 @@ module Sidecloq
       @check_interval = options[:check_interval] || 15
       @lock_manager = Redlock::Client.new([@redis])
       @obtained_lock = Concurrent::Event.new
+      @lock = nil
     end
 
     # blocks until lock is obtained, then yields
@@ -51,7 +52,11 @@ module Sidecloq
 
     def try_to_get_or_refresh_lock
       # redlock is in ms, not seconds
-      @lock = @lock_manager.lock(@key, @ttl * 1000, extend: @lock)
+      if @lock
+        @lock = @lock_manager.lock(@key, @ttl * 1000, extend: @lock)
+      else
+        @lock = @lock_manager.lock(@key, @ttl * 1000)
+      end
       @obtained_lock.set if @lock
       logger.debug("Leader lock #{'not ' unless @lock}held")
       @lock
