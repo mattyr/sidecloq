@@ -44,5 +44,13 @@ class TestScheduler < Sidecloq::Test
       scheduler.safe_enqueue_job('bad', {})
       assert_equal 0, Sidekiq::Stats.new.enqueued
     end
+
+    it 'has a unqiue JID for each enqueue call' do
+      jid_1 = scheduler.safe_enqueue_job('test', specs[:test])
+      jid_2 = scheduler.safe_enqueue_job('test', specs[:test])
+      refute_nil jid_1
+      refute_nil jid_2
+      refute_equal jid_1, jid_2
+    end
   end
 end
