@@ -18,6 +18,12 @@ class TestJobEnqueuer < Sidecloq::Test
         job = Sidekiq::Queue.new.first
         assert_equal 'DummyJob', job.klass
       end
+
+      it 'keeps the origininal spec' do
+        original_spec = spec.dup
+        enqueuer.enqueue
+        assert_equal original_spec, spec
+      end
     end
 
     describe 'active_job' do
