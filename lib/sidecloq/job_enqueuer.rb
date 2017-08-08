@@ -3,7 +3,8 @@ module Sidecloq
     attr_reader :spec, :klass
 
     def initialize(spec)
-      @spec = spec
+      # Dup to prevent JID reuse in subsequent enqueue's
+      @spec = spec.dup
       @klass = spec['class'].constantize
     end
 
