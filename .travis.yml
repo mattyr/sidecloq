@@ -17,6 +17,7 @@ rvm:
 env:
   - "sidekiq=master"
   - "sidekiq=stable"
+  - "sidekiq=4.2.10"
   - "sidekiq=3.5.4"
 matrix:
   allow_failures:

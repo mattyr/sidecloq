@@ -3,6 +3,7 @@ require 'concurrent'
 require 'json'
 require 'redlock'
 require 'rufus-scheduler'
+require 'yaml'
 
 require 'sidecloq/utils'
 require 'sidecloq/schedule'
