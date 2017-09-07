@@ -6,25 +6,35 @@ services:
 rvm:
   - 2.0.0
   - 2.1.10
-  - 2.2.4
-  - 2.3.0
+  - 2.2.7
+  - 2.3.4
+  - 2.4.1
   - ruby-head
   - jruby-9.0.4.0
   - jruby-head
-  - rbx-2.10
   - rbx-2.11
-  - rbx-3.69
+  - rbx-3.84
 env:
   - "sidekiq=master"
   - "sidekiq=stable"
+  - "sidekiq=4.2.10"
   - "sidekiq=3.5.4"
 matrix:
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
-    - rvm: rbx-2.10
     - rvm: rbx-2.11
     - rvm: rbx-3.69
     - env: "sidekiq=master"
+  exclude:
+    # sidekiq 5 does not support < ruby 2.2.2
+    - rvm: 2.0.0
+      env: sidekiq=master
+    - rvm: 2.0.0
+      env: sidekiq=stable
+    - rvm: 2.1.10
+      env: sidekiq=master
+    - rvm: 2.1.10
+      env: sidekiq=stable
 after_success:
   - bundle exec codeclimate-test-reporter
