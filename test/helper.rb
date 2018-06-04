@@ -49,6 +49,7 @@ class DummyScheduler
 end
 
 class DummyJob
+  include Sidekiq::Worker
 end
 
 require 'active_job'

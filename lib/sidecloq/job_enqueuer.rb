@@ -1,11 +1,11 @@
 module Sidecloq
   class JobEnqueuer
-    attr_reader :spec, :klass
+    attr_reader :spec
 
     def initialize(spec)
       # Dup to prevent JID reuse in subsequent enqueue's
       @spec = spec.dup
-      @klass = spec['class'].constantize
+      @spec['class'] = spec['class'].constantize
     end
 
     def enqueue
@@ -17,6 +17,10 @@ module Sidecloq
     end
 
     private unless $TESTING
+
+    def klass
+      spec['class']
+    end
 
     def active_job_class?
       defined?(ActiveJob::Base) && klass < ActiveJob::Base

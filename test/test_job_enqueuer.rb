@@ -19,6 +19,13 @@ class TestJobEnqueuer < Sidecloq::Test
         assert_equal 'DummyJob', job.klass
       end
 
+      it 'applies the job class sidekiq options' do
+        DummyJob.sidekiq_options retry: false
+        enqueuer.enqueue
+        job = Sidekiq::Queue.new.first
+        assert_equal false, job.item['retry']
+      end
+
       it 'keeps the origininal spec' do
         original_spec = spec.dup
         enqueuer.enqueue
