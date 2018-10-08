@@ -5,7 +5,7 @@ module Sidecloq
     def initialize(spec)
       # Dup to prevent JID reuse in subsequent enqueue's
       @spec = spec.dup
-      @spec['class'] = spec['class'].constantize
+      @spec['class'] = Object.const_get(spec['class'])
     end
 
     def enqueue
