@@ -10,7 +10,7 @@ module Sidecloq
 
       def method_missing(meth, *args)
         Sidekiq::Logging.with_context(@context) do
-          Sidekiq.logger.send(meth, args)
+          Sidekiq.logger.send(meth, *args)
         end
       end
     end
