@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Matt Robinson']
   spec.email         = ['robinson.matty@gmail.com']
 
-  spec.summary       = 'Recurring jobs for Sidekiq'
+  spec.summary       = 'Recurring / Periodic / Scheduled / Cron job extension for Sidekiq'
   spec.description   = spec.summary
   spec.homepage      = 'http://github.com/mattyr/sidecloq'
   spec.license       = 'MIT'
