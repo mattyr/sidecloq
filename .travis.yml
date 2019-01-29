@@ -22,6 +22,7 @@ env:
   - "sidekiq=3.5.4"
   - "sidekiq=4.2.10"
   - "sidekiq=5.1.3"
+  - "sidekiq=5.2.5"
   - "sidekiq=master"
 matrix:
   allow_failures:
