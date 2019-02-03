@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'sidekiq', '>= 3.5.4', '< 6'
-  spec.add_dependency 'redlock', '~> 0.2.0'
+  spec.add_dependency 'redlock', '>= 0.2.0', '< 2'
   # mimics some dev dependencies of sidekiq:
   spec.add_dependency 'concurrent-ruby'
   spec.add_dependency 'rufus-scheduler', '~> 3.1', '>= 3.1.10'
