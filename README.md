@@ -44,7 +44,7 @@ Add this line to your application's Gemfile:
 gem 'sidecloq'
 ```
 
-Tested on MRI > 2, JRuby and Rubinius.  Basically, if you can run
+Tested on MRI > 2 and JRuby 9k.  Basically, if you can run
 Sidekiq, you can run Sidecloq.  Note that Sidekiq >= 5 does not support
 MRI ruby < 2.2.2.
 
