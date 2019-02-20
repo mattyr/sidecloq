@@ -26,13 +26,15 @@ module Sidecloq
       start
       @obtained_lock.wait
       yield unless @stopping
-      stop unless @stopping
+      stop
       @stopping = false
 
       @in_with_lock = false
     end
 
     def stop(timeout = nil)
+      return if @stopping
+
       @stopping = true
 
       if @check_task
