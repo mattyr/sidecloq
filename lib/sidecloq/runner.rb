@@ -25,11 +25,9 @@ module Sidecloq
 
     def stop(timeout = nil)
       logger.debug('Stopping runner')
-      if @locker.locked?
-        @scheduler.stop(timeout)
-        @locker.stop(timeout)
-      end
-      @thread.join if @thread
+      @scheduler.stop(timeout)
+      @locker.stop(timeout)
+      @thread.join(timeout) if @thread
       logger.debug('Stopped runner')
     end
 

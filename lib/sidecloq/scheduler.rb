@@ -7,10 +7,12 @@ module Sidecloq
       @schedule = schedule
       @options = options
       @loaded = Concurrent::Event.new
+      @running = false
     end
 
     # run queues jobs per their schedules, blocking forever
     def run
+      @running = true
       logger.info('Loading schedules into redis')
       sync_with_redis
       logger.info('Starting scheduler')
@@ -19,9 +21,12 @@ module Sidecloq
     end
 
     def stop(timeout = nil)
+      return unless @running
       logger.info("Stopping scheduler (timeout: #{timeout})")
       rufus.shutdown(:kill)
       rufus.thread.join(timeout)
+      @running = false
+
       logger.info('Stopped scheduler')
     end
 

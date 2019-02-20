@@ -13,24 +13,39 @@ module Sidecloq
       @check_interval = options[:check_interval] || 15
       @lock_manager = Redlock::Client.new([@redis])
       @obtained_lock = Concurrent::Event.new
+      @check_task = nil
       @lock = nil
+      @stopping = false
+      @in_with_lock = false
     end
 
     # blocks until lock is obtained, then yields
     def with_lock
+      @in_with_lock = true
+
       start
       @obtained_lock.wait
-      yield
-      stop
+      yield unless @stopping
+      stop unless @stopping
+      @stopping = false
+
+      @in_with_lock = false
     end
 
     def stop(timeout = nil)
-      return unless @check_task
+      @stopping = true
 
-      logger.debug('Stopping locker check task')
-      @check_task.shutdown
-      @check_task.wait_for_termination(timeout)
-      logger.debug('Stopped locker check task')
+      if @check_task
+        logger.debug('Stopping locker check task')
+        @check_task.shutdown
+        @check_task.wait_for_termination(timeout)
+        logger.debug('Stopped locker check task')
+      end
+
+      # release the lock in case someone is blocked on with_lock
+      @obtained_lock.set
+
+      @stopping = false unless @in_with_lock
     end
 
     def locked?
