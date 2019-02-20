@@ -28,8 +28,8 @@ module Sidecloq
       if @locker.locked?
         @scheduler.stop(timeout)
         @locker.stop(timeout)
+        @thread.join if @thread
       end
-      @thread.join if @thread
       logger.debug('Stopped runner')
     end
 

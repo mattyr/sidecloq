@@ -28,12 +28,18 @@ module Sidecloq
 end
 
 class DummyLocker
+  def initialize(locked = true)
+    @obtained_lock = Concurrent::Event.new
+    @obtained_lock.set if locked
+  end
+
   def with_lock
+    @obtained_lock.wait
     yield
   end
 
   def locked?
-    true
+    @obtained_lock.set?
   end
 
   def stop(timeout = nil)

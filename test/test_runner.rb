@@ -24,5 +24,27 @@ class TestRunner < Sidecloq::Test
 
       r.stop
     end
+
+    it 'stops when not leader (non-blocking)' do
+      leader = Sidecloq::Runner.new(
+        locker: DummyLocker.new(true),
+        scheduler: DummyScheduler.new
+      )
+      leader.run
+      assert true
+
+      runner = Sidecloq::Runner.new(
+        locker: DummyLocker.new(false),
+        scheduler: DummyScheduler.new
+      )
+      runner.run
+      assert true
+
+      runner.stop
+      assert true
+
+      leader.stop
+      assert true
+    end
   end
 end
