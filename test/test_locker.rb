@@ -66,33 +66,49 @@ class TestLocker < Sidecloq::Test
 
     it 'with_lock returns without yielding when lock not held and stop called' do
       holder = Sidecloq::Locker.new(lock_key: 'lockertest5')
+      non_holder = Sidecloq::Locker.new(lock_key: 'lockertest5')
 
       release_holder_lock = Concurrent::Event.new
-      Thread.new do
+      obtained_holder_lock = Concurrent::Event.new
+      started_non_holder_check_task_lock = Concurrent::Event.new
+      non_holder_thread_started_lock = Concurrent::Event.new
+
+      holder_thread = Thread.new do
         holder.with_lock do
+          obtained_holder_lock.set
           release_holder_lock.wait
         end
       end
 
-      non_holder = Sidecloq::Locker.new(lock_key: 'lockertest5')
+      obtained_holder_lock.wait
 
-      thread_start_lock = Concurrent::Event.new
+      # make sure that the non_holder actually tries to obtain a lock (jruby
+      # can run the main thread fast enough that this doesn't happen sometimes,
+      # and it's a key part of this test)
+      non_holder.start.add_observer do
+        started_non_holder_check_task_lock.set
+      end
+
       did_return = false
       did_yield = false
 
-      thread = Thread.new do
-        thread_start_lock.set
+      non_holder_thread = Thread.new do
+        started_non_holder_check_task_lock.wait
+
+        non_holder_thread_started_lock.set
+
         non_holder.with_lock do
           did_yield = true # should not happen
         end
         did_return = true
       end
 
-      thread_start_lock.wait
+      non_holder_thread_started_lock.wait
 
       non_holder.stop
 
-      thread.join(3) # should be fast if not failure
+      non_holder_thread.join(3) # should be fast if not failure
+      holder_thread.join(0)
 
       release_holder_lock.set
 

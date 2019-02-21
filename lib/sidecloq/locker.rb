@@ -25,7 +25,9 @@ module Sidecloq
 
       start
       @obtained_lock.wait
-      yield unless @stopping
+
+      yield if locked?
+
       stop
       @stopping = false
 
@@ -51,7 +53,7 @@ module Sidecloq
     end
 
     def locked?
-      @obtained_lock.set?
+      !@stopping && @lock && @obtained_lock.set?
     end
 
     private unless $TESTING
@@ -65,6 +67,9 @@ module Sidecloq
         try_to_get_or_refresh_lock
       end
       @check_task.execute
+
+      # return the check task, to help with tests
+      @check_task
     end
 
     def try_to_get_or_refresh_lock
