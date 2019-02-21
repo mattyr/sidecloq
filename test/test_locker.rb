@@ -69,6 +69,7 @@ class TestLocker < Sidecloq::Test
       assert holder.try_to_get_or_refresh_lock
 
       non_holder = Sidecloq::Locker.new(lock_key: 'lockertest5')
+      refute non_holder.try_to_get_or_refresh_lock
 
       thread_start_lock = Concurrent::Event.new
       did_return = false
@@ -88,7 +89,7 @@ class TestLocker < Sidecloq::Test
 
       thread.join(3) # should be fast if not failure
 
-      assert !did_yield
+      refute did_yield
       assert did_return
     end
   end
