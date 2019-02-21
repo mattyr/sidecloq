@@ -66,10 +66,15 @@ class TestLocker < Sidecloq::Test
 
     it 'with_lock returns without yielding when lock not held and stop called' do
       holder = Sidecloq::Locker.new(lock_key: 'lockertest5')
-      assert holder.try_to_get_or_refresh_lock
+
+      release_holder_lock = Concurrent::Event.new
+      Thread.new do
+        holder.with_lock do
+          release_holder_lock.wait
+        end
+      end
 
       non_holder = Sidecloq::Locker.new(lock_key: 'lockertest5')
-      refute non_holder.try_to_get_or_refresh_lock
 
       thread_start_lock = Concurrent::Event.new
       did_return = false
@@ -88,6 +93,8 @@ class TestLocker < Sidecloq::Test
       non_holder.stop
 
       thread.join(3) # should be fast if not failure
+
+      release_holder_lock.set
 
       refute did_yield
       assert did_return
