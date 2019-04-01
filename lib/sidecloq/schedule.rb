@@ -32,7 +32,7 @@ module Sidecloq
     end
 
     def self.from_hash(hash)
-      hash = hash[Rails.env] if defined?(Rails) && hash.key?(Rails.env)
+      hash = hash[env] if hash.key?(env)
 
       specs = hash.each_with_object({}) do |(name, spec), memo|
         memo[name] = spec.dup.tap do |s|
@@ -71,6 +71,18 @@ module Sidecloq
           r.hset(REDIS_KEY, name, spec.to_json)
         end
       end
+    end
+
+    def self.env
+      rails_env || rack_env
+    end
+
+    def self.rails_env
+      Rails.env if defined?(Rails)
+    end
+
+    def self.rack_env
+      ENV['RACK_ENV']
     end
   end
 end

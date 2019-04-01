@@ -61,15 +61,30 @@ class DummyActiveJob < ActiveJob::Base
 end
 
 def define_rails!
-  Object.const_set('Rails', Class.new do
-    def self.root
-      File.expand_path('../', __FILE__)
-    end
+  unless defined? Rails
+    Object.const_set('Rails', Class.new do
 
-    def self.env
-      'development'
-    end
-  end)
+      @env = 'development'
+
+      def self.root
+        File.expand_path('../', __FILE__)
+      end
+
+      def self.env
+        @env
+      end
+
+      def self.env=(env = nil)
+        @env = env
+      end
+    end)
+  end
+end
+
+def undefine_rails!
+  if defined? Rails
+    Object.send(:remove_const, :Rails)
+  end
 end
 
 # also courtesy of sidekiq:
