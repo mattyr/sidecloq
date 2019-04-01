@@ -81,6 +81,12 @@ def define_rails!
   end
 end
 
+def undefine_rails!
+  if defined? Rails
+    Object.send(:remove_const, :Rails)
+  end
+end
+
 # also courtesy of sidekiq:
 trap 'USR1' do
   threads = Thread.list

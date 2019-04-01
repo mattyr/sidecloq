@@ -57,7 +57,7 @@ class TestSchedule < Sidecloq::Test
       define_rails!
       ::Rails.env = 'test'
 
-      file = Tempfile.new('rail_senv_schedule_test')
+      file = Tempfile.new('rails_env_schedule_test')
 
       rails_env_schedule.save_yaml(file.path)
 
@@ -71,8 +71,7 @@ class TestSchedule < Sidecloq::Test
     it 'can load RACK_ENV based nested yml file' do
       require 'tempfile'
 
-      define_rails!
-      ::Rails.env = nil
+      undefine_rails!
       ENV['RACK_ENV'] = 'staging'
 
       file = Tempfile.new('rack_env_schedule_test')
