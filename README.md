@@ -34,7 +34,7 @@ Sidecloq is:
   jobs, and a new leader is automatically chosen should the current
   leader die.
 - **Easy to configure:** Schedule configuration is done in YAML, using
-  the familiar cron syntax. No special DSL or job class mixins required.
+  cron syntax. No special DSL or job class mixins required.
 
 ## Installation
 
@@ -44,9 +44,8 @@ Add this line to your application's Gemfile:
 gem 'sidecloq'
 ```
 
-Tested on MRI > 2 and JRuby 9k.  Basically, if you can run
-Sidekiq, you can run Sidecloq.  Note that Sidekiq >= 5 does not support
-MRI ruby < 2.2.2.
+Tested on MRI > 2.2.2 and JRuby 9k.  Basically, if you can run
+Sidekiq, you can run Sidecloq.
 
 ## Configuration
 
@@ -137,18 +136,6 @@ has sufficient connections for both Sidekiq and Sidecloq.  The minimum
 is the concurrency level + 3 additional connections.  Note that the pool
 creates connections lazily, so setting a big number here isn't an issue
 (per Sidekiq docs!).
-
-### MRI Version
-
-If you are running MRI < 2.2.2, you will need to make sure you are using
-rack < 2.0.  You can do this by adding:
-
-```ruby
-gem 'rack', '< 2.0'
-```
-
-To your app's Gemfile.  (This will also keep you from using the 5.x
-series of Sidekiq, as it requires MRI > 2.2.2).
 
 ## Contributing
 
