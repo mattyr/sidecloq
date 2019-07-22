@@ -40,6 +40,16 @@ module Sidecloq
   end
 
   def self.startup
+    # Check the size of the connection pool.  If a custom pool is passed, the
+    # number of required connections may be too low and Sidecloq will freeze
+    # waiting for a connection.
+    # Sidekiq's default pool creates an additional 5 slots, which is more than
+    # sufficient for both Sidekiq and Sidecloq.
+    cursize = Sidekiq.redis_pool.size
+    # Sidekiq needs at least 2 additional, and Sidecloq needs 1 additional (for the locker)
+    needed = Sidekiq.options[:concurrency] + 3
+    raise "Your pool of #{cursize} Redis connections is too small, please increase the size to at least #{needed}" if cursize < needed
+
     options[:schedule] ||= extract_schedule unless options[:scheduler]
 
     @runner = Runner.new(options)

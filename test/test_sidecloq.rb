@@ -31,7 +31,6 @@ class TestSidecloq < Sidecloq::Test
       end
 
       it 'installs into sidekiq automatically' do
-        require 'sidekiq/cli'
         Sidecloq.install
         assert_equal 1, Sidekiq.options[:lifecycle_events][:startup].length
         assert_equal 1, Sidekiq.options[:lifecycle_events][:shutdown].length

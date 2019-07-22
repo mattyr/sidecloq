@@ -129,6 +129,17 @@ it's corresponding "Enqueue now" button.
 
 ## Notes
 
+### Redis Connection
+
+By default, Sidecloq uses Sidekiq's redis connection pool to do it's
+work.  If you use a custom-configured connection pool, ensure that it
+has sufficient connections for both Sidekiq and Sidecloq.  The minimum
+is the concurrency level + 3 additional connections.  Note that the pool
+creates connections lazily, so setting a big number here isn't an issue
+(per Sidekiq docs!).
+
+### MRI Version
+
 If you are running MRI < 2.2.2, you will need to make sure you are using
 rack < 2.0.  You can do this by adding:
 

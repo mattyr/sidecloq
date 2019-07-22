@@ -12,15 +12,18 @@ require 'sidecloq'
 
 require 'minitest/autorun'
 
+# ensure sidekiq is operating as a server by defining the CLI class
+require 'sidekiq/cli'
+
 # from sidekiq's test helper:
 
 REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost/15'
 
-Sidekiq.configure_client do |config|
+Sidekiq::Logging.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
+
+Sidekiq.configure_server do |config|
   config.redis = { url: REDIS_URL, namespace: 'testy' }
 end
-
-Sidekiq::Logging.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
 
 module Sidecloq
   class Test < MiniTest::Test
