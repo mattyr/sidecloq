@@ -26,7 +26,7 @@
           <td>
             <form action="<%= root_path %>recurring/<%= CGI.escape(name).gsub('+', '%20') %>/enqueue" method="post">
               <%= csrf_tag if respond_to?(:csrf_tag) %>
-              <input class='btn btn-xs pull-left' type="submit" name="enque" value="<%= t('Enqueue Now') %>"/>
+              <input class='btn btn-primary btn-xs' type="submit" name="enque" value="<%= t('Enqueue Now') %>"/>
             </form>
           </td>
         </tr>

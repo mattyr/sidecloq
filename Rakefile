@@ -36,6 +36,7 @@ task :web do
   end
 
   class DoWork
+    include Sidekiq::Worker
   end
 
   require 'sidekiq/web'
