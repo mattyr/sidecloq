@@ -6,7 +6,6 @@
 [![Gem Version](https://badge.fury.io/rb/sidecloq.svg)](https://badge.fury.io/rb/sidecloq)
 [![Code Climate](https://codeclimate.com/github/mattyr/sidecloq/badges/gpa.svg)](https://codeclimate.com/github/mattyr/sidecloq)
 [![Test Coverage](https://codeclimate.com/github/mattyr/sidecloq/badges/coverage.svg)](https://codeclimate.com/github/mattyr/sidecloq/coverage)
-[![Dependency Status](https://gemnasium.com/mattyr/sidecloq.svg)](https://gemnasium.com/mattyr/sidecloq)
 
 Recurring / Periodic / Scheduled / Cron job extension for
 [Sidekiq](https://github.com/mperham/sidekiq)
