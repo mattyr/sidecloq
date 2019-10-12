@@ -8,15 +8,34 @@ module Sidecloq
         @context = ctx
       end
 
+      def sidekiq_logging_context_method
+        @sidekiq_logging_context_method ||=
+          begin
+            if defined? Sidekiq::Logging
+              # sidekiq < 6
+              Sidekiq::Logging.method(:with_context)
+            elsif defined?(Sidekiq::Context)
+              # sidekiq 6, <= 6.0.1
+              Sidekiq::Context.method(:with)
+            else
+              # sidekiq 6, master
+              Sidekiq.logger.method(:with_context)
+            end
+          end
+      end
+
       def method_missing(meth, *args)
-        Sidekiq::Logging.with_context(@context) do
+        sidekiq_logging_context_method.call(@context) do
           Sidekiq.logger.send(meth, *args)
         end
       end
     end
 
+
     def logger
-      @logger ||= ContextLogger.new('Sidecloq')
+      @logger ||= ContextLogger.new(
+        defined?(Sidekiq::Logging) ? 'Sidecloq' : {sidecloq: true}
+      )
     end
 
     def redis(&block)

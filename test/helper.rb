@@ -20,7 +20,7 @@ Sidekiq.configure_client do |config|
   config.redis = { url: REDIS_URL, namespace: 'testy' }
 end
 
-Sidekiq::Logging.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
+Sidekiq.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
 
 module Sidecloq
   class Test < MiniTest::Test
