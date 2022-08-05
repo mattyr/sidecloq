@@ -41,8 +41,13 @@ task :web do
 
   require 'sidekiq/web'
   require 'sidecloq/web'
+  require 'securerandom'
 
   Rack::Server.start(
-    app: Sidekiq::Web
+    app:
+      Rack::Builder.app do
+        use Rack::Session::Cookie, secret: SecureRandom.hex(32), same_site: true, max_age: 86400
+        run Sidekiq::Web
+      end
   )
 end
