@@ -6,7 +6,15 @@ module Sidecloq
 
     def self.registered(app)
       app.get '/recurring' do
-        @schedule = Schedule.from_redis
+        @job_specs = Schedule.from_redis.job_specs
+        @job_specs.each_value do |job_spec|
+          job_spec['cron'] ||= job_spec['every']
+
+          job_spec['queue'] ||= begin
+            klass = Object.const_get(job_spec['class'])
+            (klass.sidekiq_options_hash && klass.sidekiq_options_hash.fetch('queue', 'default')) || 'default'
+          end
+        end
 
         erb File.read(File.join(VIEW_PATH, 'recurring.erb'))
       end
