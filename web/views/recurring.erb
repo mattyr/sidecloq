@@ -20,12 +20,7 @@
           <td><%= name %></td>
           <td><%= job_spec.fetch 'cron', job_spec['every'] %></td>
           <td>
-            <% t = @helpers.next_run(job_spec.fetch 'cron') %>
-            <% if t %>
-              <%= @helpers.time_in_words_to_now(t.send(:to_time)) %>
-              @
-              <%= @helpers.time_in_words(t) %>
-            <% end %>
+            <%= @helpers.next_run_at(job_spec.fetch('cron')) %>
           </td>
           <td><%= job_spec['class'] %></td>
           <td>

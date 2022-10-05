@@ -25,8 +25,14 @@ module Sidecloq
     ##
     # Helpers for the the web view
     class Helpers
-      def self.next_run(cronline)
-        Fugit.parse_cron(cronline).next_time.send(:to_time) rescue nil
+      def self.next_run_at(cronline)
+        t = Fugit.parse_cron(cronline).next_time.send(:to_time) rescue nil
+        if t
+          [
+            time_in_words(t),
+            time_in_words_to_now(t)
+          ].join(" ")
+        end
       end
       def self.time_in_words(t)
         return unless t.is_a?(Time)
