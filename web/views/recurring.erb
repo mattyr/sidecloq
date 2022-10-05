@@ -6,6 +6,7 @@
       <tr>
         <th>Name</th>
         <th>Cron</th>
+        <th>Next Run</th>
         <th>Class</th>
         <th>Queue</th>
         <th>Arguments</th>
@@ -18,6 +19,14 @@
         <tr>
           <td><%= name %></td>
           <td><%= job_spec.fetch 'cron', job_spec['every'] %></td>
+          <td>
+            <% t = @helpers.next_run(job_spec.fetch 'cron') %>
+            <% if t %>
+              <%= @helpers.time_in_words_to_now(t.send(:to_time)) %>
+              @
+              <%= @helpers.time_in_words(t) %>
+            <% end %>
+          </td>
           <td><%= job_spec['class'] %></td>
           <td>
             <a href="<%= root_path %>queues/<%= job_spec.fetch('queue', 'default') %>"><%= job_spec.fetch('queue', 'default') %></a>
