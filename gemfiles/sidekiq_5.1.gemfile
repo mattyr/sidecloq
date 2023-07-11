@@ -6,7 +6,6 @@ gem "sidekiq", "5.1.3"
 
 group :test do
   gem "simplecov"
-  gem "codeclimate-test-reporter", "~> 1.0.0"
 end
 
 platforms :mri, :rbx do

@@ -7,10 +7,9 @@ platforms :mri, :rbx do
   gem 'minitest-utils'
 end
 
-# https://github.com/sinatra/sinatra/blob/master/Gemfile
 sidekiq_dep =
-  case ENV['sidekiq']
-  when /(\d+\.)+\d+/ then "~> " + ENV['sidekiq'].sub("sidekiq-", '')
+  case ENV['sidekiq'].to_s.sub('sidekiq-', '')
+  when /(?:\d+\.)+\d+/ then "~> #{$&}#{'.0' if Gem::Version.new($&).segments.size == 2}"
   else {github: 'mperham/sidekiq', branch: ENV['sidekiq']}
   end
 
@@ -25,5 +24,4 @@ end
 
 group :test do
   gem "simplecov"
-  gem "codeclimate-test-reporter", "~> 1.0.0"
 end
