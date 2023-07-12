@@ -33,16 +33,14 @@ jobs:
       sidekiq: ${{ matrix.sidekiq-version }}
       CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Ruby
-      uses: ruby/setup-ruby@v1
+      uses: ruby/setup-ruby@55283cc23133118229fd3f97f9336ee23a179fcf # v1.146.0
       with:
         ruby-version: ${{ matrix.ruby-version }}
         bundler-cache: true
-      timeout-minutes: 5
     - name: Run tests
       run: bundle exec rake
-      continue-on-error: ${{ matrix.sidekiq-version == 'main' }}
       timeout-minutes: 5
     - name: Report code coverage
       if: ${{ github.ref == 'refs/heads/master' && matrix.ruby-version == '3.1' && matrix.sidekiq-version == '6.0' }}
