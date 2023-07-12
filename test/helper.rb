@@ -60,6 +60,10 @@ end
 
 def define_rails!
   unless defined? Rails::Engine
+    if !defined?(Rails)
+      Object.const_set('Rails', Module.new)
+    end
+
     Rails.const_set('Engine', Class.new)
 
     Rails.class_eval do
