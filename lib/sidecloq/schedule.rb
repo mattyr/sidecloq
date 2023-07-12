@@ -78,7 +78,7 @@ module Sidecloq
     end
 
     def self.rails_env
-      Rails.env if defined?(Rails)
+      Rails.env if defined?(Rails::Engine)
     end
 
     def self.rack_env

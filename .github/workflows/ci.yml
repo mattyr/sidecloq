@@ -16,8 +16,6 @@ jobs:
         - jruby-9.3
         - jruby-9.4
         sidekiq-version:
-        - "5.1"
-        - "5.2"
         - "6.0"
         - "6.1"
         - "6.2"

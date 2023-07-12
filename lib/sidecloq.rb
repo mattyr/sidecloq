@@ -66,7 +66,7 @@ module Sidecloq
 
     if File.exist?(options[:schedule_file])
       return Schedule.from_yaml(options[:schedule_file])
-    elsif defined?(Rails)
+    elsif defined?(Rails::Engine)
       # try rails-root-relative
       full_path = File.join(Rails.root, options[:schedule_file])
       if File.exist?(full_path)
