@@ -15,13 +15,6 @@ sidekiq_dep =
 
 gem 'sidekiq', sidekiq_dep
 
-if Gem::Version.new(RUBY_VERSION) < Gem::Version.new("2.2.2")
-  # rack >= 2.0 requires ruby >= 2.2.2
-  gem 'rack', '< 2.0'
-  # activejob >= 5 requires ruby >= 2.2.2
-  gem 'activejob', '< 5'
-end
-
 group :test do
   gem "simplecov"
 end

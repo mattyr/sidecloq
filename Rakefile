@@ -17,8 +17,7 @@ task :web do
   Sidekiq.configure_client do |config|
     config.redis = {
       url: 'redis://localhost:6379/0',
-      size: 1,
-      namespace: 'sidecloq'
+      size: 1
     }
   end
 
@@ -39,10 +38,17 @@ task :web do
     include Sidekiq::Worker
   end
 
+  require 'rack/server'
+  require 'rack/session/cookie'
   require 'sidekiq/web'
   require 'sidecloq/web'
 
   Rack::Server.start(
-    app: Sidekiq::Web
+    app: Rack::Session::Cookie.new(
+      Sidekiq::Web,
+      secret: SecureRandom.hex(32),
+      same_site: true,
+      max_age: 86400
+    )
   )
 end

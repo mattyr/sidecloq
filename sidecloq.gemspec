@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'sidekiq', '>= 3.5.4', '< 8'
+  spec.add_dependency 'sidekiq', '>= 6.0.0', '< 8'
   spec.add_dependency 'redlock', '>= 2.0.0', '< 3'
   # mimics some dev dependencies of sidekiq:
   spec.add_dependency 'concurrent-ruby'
@@ -29,4 +29,6 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency "appraisal"
   spec.add_development_dependency 'activejob'
+  spec.add_development_dependency 'rack', '< 3'
+  spec.add_development_dependency 'webrick'
 end

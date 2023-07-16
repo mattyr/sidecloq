@@ -59,28 +59,30 @@ class DummyActiveJob < ActiveJob::Base
 end
 
 def define_rails!
-  unless defined? Rails::Engine
-    if !defined?(Rails)
-      Object.const_set('Rails', Module.new)
+  return if defined? Rails::Engine
+
+  if !defined?(Rails)
+    Object.const_set('Rails', Module.new)
+  end
+
+  Rails.const_set('Engine', Class.new)
+
+  return if Rails.respond_to?(:root)
+
+  Rails.class_eval do
+
+    @env = 'development'
+
+    def self.root
+      File.expand_path('../', __FILE__)
     end
 
-    Rails.const_set('Engine', Class.new)
+    def self.env
+      @env
+    end
 
-    Rails.class_eval do
-
-      @env = 'development'
-
-      def self.root
-        File.expand_path('../', __FILE__)
-      end
-
-      def self.env
-        @env
-      end
-
-      def self.env=(env = nil)
-        @env = env
-      end
+    def self.env=(env = nil)
+      @env = env
     end
   end
 end
