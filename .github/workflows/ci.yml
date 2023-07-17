@@ -33,7 +33,6 @@ jobs:
         - 6379:6379
     env:
       sidekiq: ${{ matrix.sidekiq-version }}
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
     steps:
     - uses: actions/checkout@v3
     - name: Set up Ruby
@@ -44,6 +43,3 @@ jobs:
     - name: Run tests
       run: bundle exec rake
       timeout-minutes: 5
-    - name: Report code coverage
-      if: ${{ github.ref == 'refs/heads/master' && matrix.ruby-version == '3.2' && matrix.sidekiq-version == '7.1' }}
-      uses: paambaati/codeclimate-action@v3.0.0

@@ -12,7 +12,7 @@ require 'minitest/autorun'
 
 # from sidekiq's test helper:
 
-REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost/15'
+REDIS_URL = ENV['REDIS_URL'] || 'redis://host.docker.internal/15'
 
 Sidekiq.configure_client do |config|
   config.redis = { url: REDIS_URL } 
