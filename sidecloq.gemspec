@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'redlock', '>= 2.0.0', '< 3'
   # mimics some dev dependencies of sidekiq:
   spec.add_dependency 'concurrent-ruby'
-  spec.add_dependency 'rufus-scheduler', '~> 3.1', '>= 3.1.10'
+  spec.add_dependency 'rufus-scheduler', '~> 3.9'
 
   spec.add_development_dependency 'rake', '>= 10.0'
   spec.add_development_dependency 'minitest'

@@ -3,10 +3,12 @@ SimpleCov.start
 
 $TESTING = true
 # disable minitest/parallel threads
+ENV["MT_CPU"] = "0"
 ENV['N'] = '0'
+ENV["BACKTRACE"] = "1"
 
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'sidecloq'
+require "bundler/setup"
+Bundler.require(:default, :test)
 
 require 'minitest/autorun'
 
