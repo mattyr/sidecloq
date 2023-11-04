@@ -23,7 +23,7 @@ end
 Sidekiq.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
 
 module Sidecloq
-  class Test < MiniTest::Test
+  class Test < Minitest::Test
   end
 end
 
