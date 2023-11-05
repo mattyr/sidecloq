@@ -1,0 +1,6 @@
+es:
+  RecurringJobs: Trabajos recurrentes
+  Recurring: Recurrentes
+  Name: Nombre
+  Cron: Cron
+  EnqueueNow: Poner en la cola ahora

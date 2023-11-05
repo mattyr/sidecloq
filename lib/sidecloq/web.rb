@@ -2,6 +2,7 @@ module Sidecloq
   # Plugin for sidekiq-web
   module Web
     VIEW_PATH = File.expand_path('../../../web/views', __FILE__)
+    LOCALES = File.expand_path('../../../web/locales', __FILE__)
 
     def self.registered(app)
       app.get '/recurring' do
@@ -23,6 +24,8 @@ module Sidecloq
     end
   end
 end
+
+Sidekiq::Web.locales << Sidecloq::Web::LOCALES
 
 Sidekiq::Web.register(Sidecloq::Web)
 Sidekiq::Web.tabs['Recurring'] = 'recurring'
