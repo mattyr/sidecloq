@@ -1,4 +1,4 @@
-require 'helper'
+require_relative 'helper'
 
 class TestRunner < Sidecloq::Test
   describe 'runner' do

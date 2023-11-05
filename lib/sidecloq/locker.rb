@@ -8,6 +8,11 @@ module Sidecloq
     def initialize(options = {})
       # we keep a connection from the pool by default
       @redis = options[:redis] || Sidekiq.redis_pool.checkout
+      # for compatibility with sidekiq < 7, we need to convert the Redis
+      # instance to a RedisClient instance, which redlock requires
+      if defined?(Redis) && @redis.instance_of?(Redis)
+        @redis = RedisClient.new(@redis.connection.except(:location))
+      end
       @key = options[:lock_key] || DEFAULT_LOCK_KEY
       @ttl = options[:ttl] || 60
       @check_interval = options[:check_interval] || 15
