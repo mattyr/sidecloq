@@ -1,3 +1,5 @@
+require 'redis-client'
+
 module Sidecloq
   # Locker obtains or waits for an exclusive lock on a key in redis
   class Locker

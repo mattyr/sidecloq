@@ -21,6 +21,8 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'sidekiq', '>= 6.0.0', '< 8'
   spec.add_dependency 'redlock', '>= 2.0.0', '< 3'
+  # redlock needs redis-client
+  spec.add_dependency 'redis-client', '>= 0.14.0'
   # mimics some dev dependencies of sidekiq:
   spec.add_dependency 'concurrent-ruby'
   spec.add_dependency 'rufus-scheduler', '~> 3.9'
