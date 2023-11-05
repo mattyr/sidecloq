@@ -23,8 +23,6 @@ you.
 
 Sidecloq is:
 
-- **Lightweight:** Celluloid is not required.  This coincides well with
-  Sidekiq 4/5, which no longer use Celluloid.
 - **Clean:** Sidecloq leverages only the public API of Sidekiq, and does
   not pollute the Sidekiq namespace.
 - **Easy to deploy:** Sidecloq boots with all Sidekiq processes,
@@ -42,9 +40,7 @@ Add this line to your application's Gemfile:
 gem 'sidecloq'
 ```
 
-Tested on MRI > 2 and JRuby 9k.  Basically, if you can run
-Sidekiq, you can run Sidecloq.  Note that Sidekiq >= 5 does not support
-MRI ruby < 2.2.2.
+Requires sidekiq version >= 6.4.  MRI < 2.7 and jruby < 9.4 are not supported.
 
 ## Configuration
 
@@ -124,18 +120,6 @@ schedules are displayed.  You can enqueue a job immediately by clicking
 it's corresponding "Enqueue now" button.
 
 ![Sidecloq web ui extension screenshot](assets/screenshot.png)
-
-## Notes
-
-If you are running MRI < 2.2.2, you will need to make sure you are using
-rack < 2.0.  You can do this by adding:
-
-```ruby
-gem 'rack', '< 2.0'
-```
-
-To your app's Gemfile.  (This will also keep you from using the 5.x
-series of Sidekiq, as it requires MRI > 2.2.2).
 
 ## Contributing
 
