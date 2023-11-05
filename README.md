@@ -4,7 +4,8 @@
 
 [![CI](https://github.com/mattyr/sidecloq/actions/workflows/ci.yml/badge.svg)](https://github.com/mattyr/sidecloq/actions/workflows/ci.yml)
 [![Gem Version](https://badge.fury.io/rb/sidecloq.svg)](https://badge.fury.io/rb/sidecloq)
-[![Test Coverage](https://codeclimate.com/github/mattyr/sidecloq/badges/coverage.svg)](https://codeclimate.com/github/mattyr/sidecloq/coverage)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/65e94000ebd0b9043b1d/test_coverage)](https://codeclimate.com/github/mattyr/sidecloq/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/65e94000ebd0b9043b1d/maintainability)](https://codeclimate.com/github/mattyr/sidecloq/maintainability)
 
 Recurring / Periodic / Scheduled / Cron job extension for
 [Sidekiq](https://github.com/mperham/sidekiq)
