@@ -6,7 +6,7 @@ module Sidecloq
     def self.registered(app)
       app.get '/recurring' do
         @schedule = Schedule.from_redis
-
+        @helpers = Sidecloq::Web::Helpers
         erb File.read(File.join(VIEW_PATH, 'recurring.erb'))
       end
 
@@ -21,7 +21,32 @@ module Sidecloq
         redirect "#{root_path}recurring"
       end
     end
+
+    ##
+    # Helpers for the the web view
+    class Helpers
+      def self.next_run_at(cronline)
+        t = Fugit.parse_cron(cronline).next_time.send(:to_time) rescue nil
+        if t
+          [
+            time_in_words(t),
+            time_in_words_to_now(t)
+          ].join(" ")
+        end
+      end
+      def self.time_in_words(t)
+        return unless t.is_a?(Time)
+        t.strftime("%D %R")
+      end
+      def self.time_in_words_to_now(t)
+        return unless t.is_a?(Time)
+        hrs = (t - Time.now) / 1.hour
+        min = hrs.modulo(1) * 60
+        "#{hrs.truncate} hrs #{min.ceil} min"
+      end
+    end
   end
+
 end
 
 Sidekiq::Web.register(Sidecloq::Web)
