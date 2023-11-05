@@ -33,8 +33,9 @@ class TestSidecloq < Sidecloq::Test
       it 'installs into sidekiq automatically' do
         require 'sidekiq/cli'
         Sidecloq.install
-        assert_equal 1, Sidekiq.options[:lifecycle_events][:startup].length
-        assert_equal 1, Sidekiq.options[:lifecycle_events][:shutdown].length
+        opts = Sidekiq.respond_to?(:options) ? Sidekiq.options : Sidekiq.default_configuration
+        assert_equal 1, opts[:lifecycle_events][:startup].length
+        assert_equal 1, opts[:lifecycle_events][:shutdown].length
       end
 
       it 'can start up and shutdown' do

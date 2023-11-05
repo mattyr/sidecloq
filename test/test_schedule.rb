@@ -1,4 +1,4 @@
-require 'helper'
+require_relative 'helper'
 
 class TestSchedule < Sidecloq::Test
   describe 'schedule' do

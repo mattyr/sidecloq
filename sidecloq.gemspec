@@ -19,15 +19,18 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'sidekiq', '>= 3.5.4', '< 7'
-  spec.add_dependency 'redlock', '>= 0.2.0', '< 2'
+  spec.add_dependency 'sidekiq', '>= 6.0.0', '< 8'
+  spec.add_dependency 'redlock', '>= 2.0.0', '< 3'
+  # redlock needs redis-client
+  spec.add_dependency 'redis-client', '>= 0.14.0'
   # mimics some dev dependencies of sidekiq:
   spec.add_dependency 'concurrent-ruby'
-  spec.add_dependency 'rufus-scheduler', '~> 3.1', '>= 3.1.10'
+  spec.add_dependency 'rufus-scheduler', '~> 3.9'
 
   spec.add_development_dependency 'rake', '>= 10.0'
   spec.add_development_dependency 'minitest'
   spec.add_development_dependency "appraisal"
-  spec.add_development_dependency 'redis-namespace', '~> 1.5', '>= 1.5.3'
   spec.add_development_dependency 'activejob'
+  spec.add_development_dependency 'rack', '< 3'
+  spec.add_development_dependency 'webrick'
 end

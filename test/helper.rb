@@ -3,12 +3,12 @@ SimpleCov.start
 
 $TESTING = true
 # disable minitest/parallel threads
+ENV["MT_CPU"] = "0"
 ENV['N'] = '0'
-# silence redis-namespace deprecation warnings
-ENV['REDIS_NAMESPACE_QUIET'] = '1'
+ENV["BACKTRACE"] = "1"
 
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'sidecloq'
+require "bundler/setup"
+Bundler.require(:default, :test)
 
 require 'minitest/autorun'
 
@@ -17,13 +17,13 @@ require 'minitest/autorun'
 REDIS_URL = ENV['REDIS_URL'] || 'redis://localhost/15'
 
 Sidekiq.configure_client do |config|
-  config.redis = { url: REDIS_URL, namespace: 'testy' }
+  config.redis = { url: REDIS_URL } 
 end
 
 Sidekiq.logger.level = ENV['LOG_LEVEL'] || Logger::ERROR
 
 module Sidecloq
-  class Test < MiniTest::Test
+  class Test < Minitest::Test
   end
 end
 
@@ -61,29 +61,37 @@ class DummyActiveJob < ActiveJob::Base
 end
 
 def define_rails!
-  unless defined? Rails
-    Object.const_set('Rails', Class.new do
+  return if defined? Rails::Engine
 
-      @env = 'development'
+  if !defined?(Rails)
+    Object.const_set('Rails', Module.new)
+  end
 
-      def self.root
-        File.expand_path('../', __FILE__)
-      end
+  Rails.const_set('Engine', Class.new)
 
-      def self.env
-        @env
-      end
+  return if Rails.respond_to?(:root)
 
-      def self.env=(env = nil)
-        @env = env
-      end
-    end)
+  Rails.class_eval do
+
+    @env = 'development'
+
+    def self.root
+      File.expand_path('../', __FILE__)
+    end
+
+    def self.env
+      @env
+    end
+
+    def self.env=(env = nil)
+      @env = env
+    end
   end
 end
 
 def undefine_rails!
-  if defined? Rails
-    Object.send(:remove_const, :Rails)
+  if defined? Rails::Engine
+    Rails.send(:remove_const, :Engine) if defined? Rails::Engine
   end
 end
 
