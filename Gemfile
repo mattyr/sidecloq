@@ -17,4 +17,5 @@ gem 'sidekiq', sidekiq_dep
 
 group :test do
   gem "simplecov"
+  gem "simplecov_json_formatter"
 end
