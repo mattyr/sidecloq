@@ -43,3 +43,11 @@ jobs:
     - name: Run tests
       run: bundle exec rake
       timeout-minutes: 5
+    - name: Report code coverage
+      if: ${{ matrix.ruby-version == '3.2' && matrix.sidekiq-version == '7.1' }}
+      continue-on-error: true
+      uses: paambaati/codeclimate-action@v5.0.0
+      env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      with:
+        coverageLocations: ${{ github.workspace }}/coverage/coverage.json:simplecov

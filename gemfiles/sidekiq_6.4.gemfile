@@ -6,6 +6,7 @@ gem "sidekiq", "~> 6.4.0"
 
 group :test do
   gem "simplecov"
+  gem "simplecov_json_formatter"
 end
 
 platforms :mri, :rbx do
