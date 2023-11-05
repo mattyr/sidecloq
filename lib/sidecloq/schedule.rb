@@ -34,7 +34,7 @@ module Sidecloq
     def self.from_hash(hash)
       hash = hash[env] if hash.key?(env)
 
-      specs = hash.each_with_object({}) do |(name, spec), memo|
+      specs = (hash || []).each_with_object({}) do |(name, spec), memo|
         memo[name] = spec.dup.tap do |s|
           s['class'] = name unless spec.key?('class') || spec.key?(:class)
           s['args'] = s['args'] || s[:args] || []
