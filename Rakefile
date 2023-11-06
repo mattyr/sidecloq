@@ -21,13 +21,17 @@ task :web do
     }
   end
 
-  # throw a fake job in
+  # throw some fake jobs in
   Sidecloq.configure do |config|
     sched = Sidecloq::Schedule.from_hash({
       my_scheduled_job: {
         class: 'DoWork',
         cron: '* * * * *',
         queue: 'default'
+      },
+      my_scheduled_job2: {
+        class: 'DoWorkWithQueue',
+        cron: '* * * * *'
       }
     })
     sched.save_redis
@@ -36,6 +40,11 @@ task :web do
 
   class DoWork
     include Sidekiq::Worker
+  end
+
+  class DoWorkWithQueue
+    include Sidekiq::Worker
+    sidekiq_options queue: "not_default"
   end
 
   require 'rack/server'
