@@ -6,6 +6,7 @@ module Sidecloq
     def initialize(schedule, options = {})
       @schedule = schedule
       @options = options
+      @missed_jobs_enqueuer = MissedJobsEnqueuer.new(options)
       @loaded = Concurrent::Event.new
       @running = false
     end
@@ -17,6 +18,9 @@ module Sidecloq
       sync_with_redis
       logger.info('Starting scheduler')
       load_schedule_into_rufus
+
+      @missed_jobs_enqueuer.enqueue_missed_jobs(@schedule)
+    ensure
       rufus.join
     end
 
@@ -74,6 +78,8 @@ module Sidecloq
       rescue => e
         logger.info "error enqueuing #{name} - #{e.class.name}: #{e.message}"
       end
+
+      @missed_jobs_enqueuer.log_last_enqueued(name)
     end
   end
 end

@@ -12,6 +12,7 @@ require 'sidecloq/scheduler'
 require 'sidecloq/runner'
 require 'sidecloq/job_enqueuer'
 require 'sidecloq/version'
+require 'sidecloq/missed_jobs_enqueuer'
 
 # Sideloq provides a lightweight recurring job scheduler for sidekiq
 module Sidecloq
